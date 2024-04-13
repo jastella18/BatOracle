@@ -1,0 +1,16 @@
+Dataset: https://www.kaggle.com/datasets/joyshil0599/mlb-hitting-and-pitching-stats-through-the-years
+
+https://baseballsavant.mlb.com/leaderboard/custom?year=2023&type=batter&filter=&min=q&selections=pa%2Chit%2Chome_run%2Ck_percent%2Cbatting_avg%2Cslg_percent%2Con_base_plus_slg%2Cwoba%2Cxwoba%2Csweet_spot_percent%2Cbarrel_batted_rate%2Csolidcontact_percent%2Chard_hit_percent%2Cavg_best_speed%2Cavg_hyper_speed%2Cpitch_count_offspeed%2Cpitch_count_fastball%2Cpitch_count_breaking%2Cwhiff_percent%2Cswing_percent&chart=false&x=pa&y=pa&r=no&chartType=beeswarm&sort=groundballs_percent&sortDir=desc
+
+https://github.com/jldbc/pybaseball
+
+
+
+Idea: Create a machine learning model that processes the all-time hitting stats to predict a players stats. Specifically targeting whether or not a homerun will occur
+
+Stats applied: Minimum 3 hitters with similar stats to desired player, and three pitchers similar to opponent.
+    (ie: The Batter:
+                The Comparisons:3 Batters that match/come closest to schwarbers slg, avg, ops, and pitches hit on scatterplots
+            
+        The Pitcher: 
+                The Comparisons: 3 pitchers with same hand, pitches, strikeouts, homeruns given up, and velocities)
