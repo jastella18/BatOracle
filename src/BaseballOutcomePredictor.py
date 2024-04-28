@@ -11,7 +11,7 @@ from sklearn.isotonic import IsotonicRegression
 
 def load_model_and_predict(batter_id, pitcher_id, batter_stats, pitcher_stats):
     # Load the saved Logistic Regression model
-    with open('src/batter_performance_logreg_model.pkl', 'rb') as file:
+    with open('src/batter_performance_xgb_model.pkl', 'rb') as file:
         batter_performance_model = pickle.load(file)
     
     with open('src/merged_data.pkl', 'rb') as file:
@@ -36,6 +36,12 @@ def load_model_and_predict(batter_id, pitcher_id, batter_stats, pitcher_stats):
     X_test = pd.DataFrame({
         'woba_x': [batter_data['woba'].values[0]],
         'woba_y': [pitcher_data['woba'].values[0]],
+        'slg_percent_x': [batter_data['slg_percent'].values[0]],
+        'slg_percent_y': [pitcher_data['slg_percent'].values[0]],
+        'batting_avg_x': [batter_data['batting_avg'].values[0]],
+        'batting_avg_y': [pitcher_data['batting_avg'].values[0]],
+        'oz_swing_percent_x': [batter_data['oz_swing_percent'].values[0]],
+        'oz_swing_percent_y': [pitcher_data['oz_swing_percent'].values[0]],
         'home_run_x': [batter_data['home_run'].values[0]],
         'home_run_y': [pitcher_data['home_run'].values[0]],
         'k_percent_x': [batter_data['k_percent'].values[0]],
@@ -74,7 +80,7 @@ def load_model_and_predict(batter_id, pitcher_id, batter_stats, pitcher_stats):
     # Now you can use `loaded_calibrator` to calibrate your predictions
     y_pred_proba_calibrated = loaded_calibrator.transform(y_pred_proba_uncalibrated)"""
 
-    print("Probability of batter hitting a homerun: {:.2f}%".format(y_pred_proba_uncalibrated[0] * 100))
+    print("Probability of batter getting a hit: {:.2f}%".format(y_pred_proba_uncalibrated[0] * 100))
 
     return y_pred
 
