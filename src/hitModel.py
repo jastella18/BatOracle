@@ -47,7 +47,8 @@ X = pd.get_dummies(X, columns=['p_throws', 'stand'])
 with open ('merged_data.pkl', 'wb') as f:
     pickle.dump(merged_data, f)
 #%%
-from sklearn.ensemble import RandomForestClassifier
+import xgboost
+
 # Split the data into training and test sets
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
@@ -64,7 +65,8 @@ X_test_scaled = scaler.transform(X_test)
 with open('scaler.pkl', 'wb') as f:
     pickle.dump(scaler, f)
 
-model = RandomForestClassifier(n_estimators=200, random_state=42, max_depth=15, min_samples_leaf=10, class_weight='balanced_subsample', n_jobs=-1)
+model = xgboost.XGBClassifier(n_estimators=3000, max_depth=15, learning_rate=0.05, random_state=42, n_jobs=-1)
+
 model.fit(X_train_scaled, y_train_resampled)
 
 ###
@@ -82,7 +84,7 @@ print(f"Mean Cross-Validation F1 Score: {scores.mean():.2f}")
 # Make predictions
 y_pred = model.predict(X_test_scaled)
 probabilities = model.predict_proba(X_test_scaled)
-predictions_with_threshold = np.where(probabilities[:, 1] < 0.38, 0, 1)
+predictions_with_threshold = np.where(probabilities[:, 1] < 0.35, 0, 1)
 
 # Evaluate the model
 precision = precision_score(y_test, predictions_with_threshold)
@@ -96,7 +98,7 @@ print(f"F1-score: {f1:.2f}")
 print(f"Accuracy: {accuracy:.2f}")
 
 # Save the model
-with open('batter_performance_logreg_model.pkl', 'wb') as f:
+with open('batter_performance_xgb_model.pkl', 'wb') as f:
     pickle.dump(model, f)
 
 print("model trained and saved successfully.")
@@ -166,10 +168,10 @@ from sklearn.metrics import ConfusionMatrixDisplay
 
 # Assuming logistic_model is your model and X_test is defined
 probabilities = model.predict_proba(X_test_scaled)
-predictions_with_threshold = np.where(probabilities[:, 1] < .38, 0, 1)
+predictions_with_threshold = np.where(probabilities[:, 1] < .35, 0, 1)
 
 ConfusionMatrixDisplay.from_predictions(y_test, predictions_with_threshold)
-plt.title('Confusion Matrix with 38% Threshold')
+plt.title('Confusion Matrix with 35% Threshold')
 plt.show()
 
 #%%
