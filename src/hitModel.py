@@ -3,7 +3,7 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
-from pybaseball import statcast
+from pybaseball import statcast, pitching_stats, batting_stats
 import warnings
 import numpy as np
 from sklearn.preprocessing import LabelEncoder
@@ -17,14 +17,16 @@ from sklearn.model_selection import StratifiedKFold, cross_val_score
 warnings.simplefilter(action='ignore', category=FutureWarning)
 
 # Load the batter and pitcher stats from CSV files
-batter_stats = pd.read_csv("bstats.csv")
-pitcher_stats = pd.read_csv("pstats.csv")
+#batter_stats = pd.read_csv("bstats.csv")
+#pitcher_stats = pd.read_csv("pstats.csv")
 
 # Retrieve the 2023 Statcast data
 start_date = "2018-01-01"
 end_date = "2024-04-20"
 try:
     statcast_data = statcast(start_dt=start_date, end_dt=end_date)
+    batter_stats = batting_stats(start_dt=start_date, end_dt=end_date)
+    pitcher_stats = pitching_stats(start_dt=start_date, end_dt=end_date)
 except Exception as e:
     print("An error occurred:", e)
     traceback.print_exc()
